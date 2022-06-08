@@ -141,7 +141,7 @@
         create_line_canvas(x, y, color, config_canvas.width / 2.3, "3", 100, 120);
     }
     function check_main_rocket() {
-        document.querySelector(".lobby__rocket").style.background = `url('../img/icons/rocket_${+sessionStorage.getItem("current-rocket")}.svg') center / contain no-repeat`;
+        document.querySelector(".lobby__rocket img").setAttribute("src", `img/icons/rocket_${+sessionStorage.getItem("current-rocket")}.svg`);
     }
     const config_shop = {
         price_2: 1500,
@@ -232,7 +232,6 @@
     if (document.querySelector(".game")) {
         document.querySelector(".name__name-text").textContent = sessionStorage.getItem("player-name");
         check_rocket();
-        create_canvas(".square");
         start_rocket_smoke();
         if (sessionStorage.getItem("boost")) document.querySelector(".boost-game__count").textContent = sessionStorage.getItem("boost"); else document.querySelector(".boost-game__count").textContent = 0;
         if (+sessionStorage.getItem("money") >= 10) {
@@ -251,6 +250,7 @@
         document.querySelector(".square__player img").setAttribute("src", `img/icons/rocket_${+sessionStorage.getItem("current-rocket")}.svg`);
     }
     function start_game() {
+        create_canvas(".square");
         delete_money(+sessionStorage.getItem("current-bet"), ".check");
         generate_start_speed();
         moove_player();
