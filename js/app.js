@@ -105,15 +105,17 @@
     if (document.querySelector(".main")) {
         sessionStorage.setItem("rocket-1", true);
         if (!sessionStorage.getItem("current-rocket")) sessionStorage.setItem("current-rocket", 1);
+        if (sessionStorage.getItem("player-name")) {
+            hide_write_name();
+            document.querySelector(".name__name-text").textContent = sessionStorage.getItem("player-name");
+        }
+    }
+    if (document.querySelector(".main") && document.querySelector(".preloader").classList.contains("_hide")) {
         check_main_rocket();
         create_pin();
         setTimeout((() => {
             get_coord_main_rocket();
         }), 2600);
-        if (sessionStorage.getItem("player-name")) {
-            hide_write_name();
-            document.querySelector(".name__name-text").textContent = sessionStorage.getItem("player-name");
-        }
     }
     function hide_write_name() {
         document.querySelector(".select-name").classList.add("_hide");
@@ -255,6 +257,10 @@
         moove_bot_1();
         moove_bot_2();
         generate_line_colors();
+        write_color_bot_name();
+        document.querySelectorAll(".square__bot-name").forEach((el => {
+            el.classList.add("_active");
+        }));
         document.querySelector(".controls__body").classList.add("_hold");
         setTimeout((() => {
             config_game.program = 2;
@@ -281,6 +287,12 @@
         config_canvas.color_line_dot_1 = `${get_random(0, 255)},${get_random(0, 255)},${get_random(0, 255)}`;
         config_canvas.color_line_dot_2 = `${get_random(0, 255)},${get_random(0, 255)},${get_random(0, 255)}`;
     }
+    function write_color_bot_name() {
+        document.querySelector(".square__bot-name_1").style.color = `rgb(${config_canvas.color_line_dot_1})`;
+        document.querySelector(".square__bot-name_1").style.textShadow = `0px 3px 5px rgba(${config_canvas.color_line_dot_1}, 0.71)`;
+        document.querySelector(".square__bot-name_2").style.color = `rgb(${config_canvas.color_line_dot_2})`;
+        document.querySelector(".square__bot-name_2").style.textShadow = `0px 3px 5px rgba(${config_canvas.color_line_dot_2}, 0.71)`;
+    }
     function start_rocket_smoke() {
         config_game.timerSmokePlayer = setInterval((() => {
             create_smoke_rocket(".square__player");
@@ -304,8 +316,8 @@
             player.style.bottom = `${bottom}%`;
             player.style.left = `${left}%`;
             player.style.transform = `rotate(${75 - rotate}deg)`;
-            if (left >= 95 || bottom >= 80) {
-                let x = transl_percent_to_px(left, config_canvas.width) - 5;
+            if (left >= 90 || bottom >= 85) {
+                let x = transl_percent_to_px(left, config_canvas.width) + 5;
                 let y = config_canvas.height - transl_percent_to_px(bottom, config_canvas.height) - 20;
                 create_line_canvas(x, y, config_canvas.color_line_player, 0, "2", 100, 150);
                 config_game.winners.push(1);
@@ -327,7 +339,7 @@
             player.style.bottom = `${bottom}%`;
             player.style.left = `${left}%`;
             player.style.transform = `rotate(${75 - rotate}deg)`;
-            if (left >= 95 || bottom >= 80) {
+            if (left >= 90 || bottom >= 85) {
                 let x = transl_percent_to_px(left, config_canvas.width) + 5;
                 let y = config_canvas.height - transl_percent_to_px(bottom, config_canvas.height) - 10;
                 create_line_canvas(x, y, config_canvas.color_line_dot_1, 0, "2", 100, 150);
@@ -349,10 +361,10 @@
             player.style.bottom = `${bottom}%`;
             player.style.left = `${left}%`;
             player.style.transform = `rotate(${75 - rotate}deg)`;
-            if (left >= 95 || bottom >= 80) {
+            if (left >= 90 || bottom >= 85) {
                 let x = transl_percent_to_px(left, config_canvas.width) + 5;
                 let y = config_canvas.height - transl_percent_to_px(bottom, config_canvas.height) - 10;
-                create_line_canvas(x, y, config_canvas.color_line_dot_1, 0, "2", 100, 150);
+                create_line_canvas(x, y, config_canvas.color_line_dot_2, 0, "2", 100, 150);
                 config_game.winners.push(3);
                 if (3 == config_game.winners.length) check_win();
                 clearInterval(config_game.timerBot_2);
@@ -408,6 +420,9 @@
         config_game.winners = [];
         start_rocket_smoke();
         document.querySelectorAll(".square__dot-line").forEach((el => el.remove()));
+        document.querySelectorAll(".square__bot-name").forEach((el => {
+            el.classList.remove("_active");
+        }));
         setTimeout((() => {
             config_game.program = 1;
         }), 200);
@@ -474,6 +489,11 @@
         if (targetElement.closest(".select-name__button")) {
             let name = document.querySelector(".select-name__input").value;
             create_canvas(".main");
+            check_main_rocket();
+            create_pin();
+            setTimeout((() => {
+                get_coord_main_rocket();
+            }), 2600);
             if ("" != name) {
                 sessionStorage.setItem("player-name", name);
                 hide_write_name();
