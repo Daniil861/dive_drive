@@ -414,8 +414,10 @@
         document.querySelector(".square__bot_2").style.left = "1%";
         document.querySelector(".square__bot_2").style.transform = "rotate(75deg)";
         document.querySelector(".square__info-item").classList.remove("_active");
-        if (document.querySelector(".square__info-item").classList.contains("_win")) document.querySelector(".square__info-item").classList.remove("_win");
-        if (document.querySelector(".square__info-item").classList.contains("_loose")) document.querySelector(".square__info-item").classList.remove("_loose");
+        setTimeout((() => {
+            if (document.querySelector(".square__info-item").classList.contains("_win")) document.querySelector(".square__info-item").classList.remove("_win");
+            if (document.querySelector(".square__info-item").classList.contains("_loose")) document.querySelector(".square__info-item").classList.remove("_loose");
+        }), 500);
         document.querySelector(".boost-game__button").classList.remove("_hold");
         config_game.winners = [];
         start_rocket_smoke();
