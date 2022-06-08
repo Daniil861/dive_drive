@@ -241,10 +241,6 @@
             document.querySelector(".block-bet__coins").textContent = 0;
             sessionStorage.setItem("current-bet", 0);
         }
-        if (sessionStorage.getItem("auto-coeff")) {
-            sessionStorage.setItem("auto-coeff", 2);
-            document.querySelector(".auto-cash__coeff").textContent = `x${sessionStorage.getItem("auto-coeff")}`;
-        } else document.querySelector(".auto-cash__coeff").textContent = `x${sessionStorage.getItem("auto-coeff")}`;
     }
     function check_rocket() {
         document.querySelector(".square__player img").setAttribute("src", `img/icons/rocket_${+sessionStorage.getItem("current-rocket")}.svg`);
@@ -524,14 +520,6 @@
             click_shop_button(4, config_shop.price_4);
             change_state_item_shop();
         }
-        if (targetElement.closest(".block-bet__minus")) if (current_bet > 50) {
-            sessionStorage.setItem("current-bet", current_bet - 50);
-            document.querySelector(".block-bet__coins").textContent = sessionStorage.getItem("current-bet");
-        }
-        if (targetElement.closest(".block-bet__plus")) if (current_bank - 49 > current_bet) {
-            sessionStorage.setItem("current-bet", current_bet + 50);
-            document.querySelector(".block-bet__coins").textContent = sessionStorage.getItem("current-bet");
-        } else no_money(".check");
         if (targetElement.closest(".block-bet__minus")) if (current_bet > 10) {
             sessionStorage.setItem("current-bet", current_bet - 10);
             document.querySelector(".block-bet__coins").textContent = sessionStorage.getItem("current-bet");
@@ -548,14 +536,6 @@
             sessionStorage.setItem("current-bet", +sessionStorage.getItem("money"));
             document.querySelector(".block-bet__coins").textContent = sessionStorage.getItem("current-bet");
         } else no_money(".check");
-        if (targetElement.closest(".auto-cash__button_minus")) if (+sessionStorage.getItem("auto-coeff") > .5) {
-            sessionStorage.setItem("auto-coeff", sessionStorage.getItem("auto-coeff") - .5);
-            document.querySelector(".auto-cash__coeff").textContent = `x${sessionStorage.getItem("auto-coeff")}`;
-        }
-        if (targetElement.closest(".auto-cash__button_plus")) if (+sessionStorage.getItem("auto-coeff") < 7) {
-            sessionStorage.setItem("auto-coeff", +sessionStorage.getItem("auto-coeff") + .5);
-            document.querySelector(".auto-cash__coeff").textContent = `x${sessionStorage.getItem("auto-coeff")}`;
-        }
         if (targetElement.closest(".controls__button") && 1 == config_game.program) start_game();
         if (targetElement.closest(".controls__button") && 2 == config_game.program) reset_game();
         if (targetElement.closest(".boost-game__button") && 2 == config_game.program) get_speed_up();
