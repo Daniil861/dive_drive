@@ -257,6 +257,7 @@
         moove_bot_1();
         moove_bot_2();
         generate_line_colors();
+        get_bot_name();
         write_color_bot_name();
         document.querySelectorAll(".square__bot-name").forEach((el => {
             el.classList.add("_active");
@@ -449,6 +450,12 @@
         setTimeout((() => {
             dot.remove();
         }), 1e3);
+    }
+    function get_bot_name() {
+        let names_1 = [ "Tom", "Bob", "Zeus", "James", "Noah", "Liam", "Ava", "Mia", "Eric", "Sam" ];
+        let names_2 = [ "Jack", "Oscar", "John", "Lola", "Cora", "Lucy", "Eva ", "Alex", "Carl", "Dirk" ];
+        document.querySelector(".square__bot-name_1").textContent = names_1[get_random(0, 10)];
+        document.querySelector(".square__bot-name_2").textContent = names_2[get_random(0, 10)];
     }
     function create_canvas(item) {
         let canvas = document.createElement("canvas");
